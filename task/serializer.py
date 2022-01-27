@@ -1,7 +1,7 @@
 from rest_framework import serializers
 
 
-class UserSubscribedPointsInputSerializer(serializers.Serializer):
+class UserIdSerializer(serializers.Serializer):
     user_id = serializers.IntegerField()
 
 
