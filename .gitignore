@@ -1,0 +1,11 @@
+__pycache__/
+static
+media
+venv
+db.sqlite3
+dist
+node_modules
+.idea
+.env
+.rar
+.eslintcache
