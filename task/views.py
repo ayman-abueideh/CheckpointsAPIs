@@ -1,8 +1,9 @@
 import datetime
 from rest_framework.response import Response
-from rest_framework.decorators import api_view
+from rest_framework.status import HTTP_400_BAD_REQUEST
 from rest_framework.views import APIView
-from task.serializer import UserSubscribedPointsInputSerializer, UserSubscribedPointsOutputSerializer
+from task.serializer import UserSubscribedPointsInputSerializer, UserSubscribedPointsOutputSerializer, \
+    ClaimCheckPointInputSerializer
 from task.models import User, Claim, SubscribedPoints, Checkpoint
 from django.db.models import Sum
 
@@ -30,3 +31,22 @@ class UserSubscribedPoints(APIView):
                 status_summation=Sum("state"))
             output_serializer = UserSubscribedPointsOutputSerializer(user_claims, many=True)
             return Response(output_serializer.data)
+
+
+class ClaimCheckPoint(APIView):
+    def post(self, request):
+        input_serializer = ClaimCheckPointInputSerializer(data=request.data)
+        if input_serializer.is_valid(raise_exception=True):
+            user_id = input_serializer.data.get("user_id")
+            checkpoint_id = input_serializer.data.get("checkpoint_id")
+            state = input_serializer.data.get("state")
+            user = User.objects.filter(id=user_id).first()
+            checkpoint = Checkpoint.objects.filter(id=checkpoint_id).first()
+            if user is None:
+                return Response(status=HTTP_400_BAD_REQUEST, data={"msg": f"User does not exist"})
+            elif checkpoint is None:
+                return Response(status=HTTP_400_BAD_REQUEST, data={"msg": f"CheckPoint does not exist"})
+            else:
+                claim = Claim(user_id=user_id, checkpoint_id=checkpoint_id, state=state)
+                claim.save()
+                return Response({'message': 'claim created successfully'})
