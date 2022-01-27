@@ -10,7 +10,7 @@ class Checkpoint(models.Model):
 
 
 class User(models.Model):
-    email = models.CharField(max_length=50, blank=False, null=False)
+    email = models.EmailField(max_length=50, blank=False, null=False)
     user_name = models.CharField(max_length=50, blank=False, null=False)
     password = models.CharField(max_length=50, blank=False, null=False)
     trusted = models.BooleanField(blank=False, null=False)
