@@ -1,4 +1,5 @@
 from django.db import models
+import datetime
 
 
 # Create your models here.
@@ -23,6 +24,11 @@ class Claim(models.Model):
                                    related_name="claim_checkpoint_id")
     state = models.BooleanField(blank=False, null=False)
     timestamp = models.BigIntegerField(blank=False, null=False)
+
+    def save(self, *args, **kwargs):
+        timestamp = datetime.datetime.now().timestamp()
+        self.timestamp = timestamp
+        super().save(*args, **kwargs)
 
 
 class SubscribedPoints(models.Model):
