@@ -17,7 +17,9 @@
 * Add an api to get the trusted level of a user:-
     * Trusted level is the number of wrong claims / number of claims 
 
+## DB Design 
 
+![Diagram](https://user-images.githubusercontent.com/59528345/151491096-c871247a-7bd7-46fc-be4b-3e57e05c1083.png)
 
 
 ### Prerequisites
